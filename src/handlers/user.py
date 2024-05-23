@@ -82,7 +82,7 @@ async def input_address_from(message: Message, state: FSMContext):
 async def input_address_to(message: Message, state: FSMContext):
     await state.update_data(address_to=message.text)
     user_data = await state.get_data()
-    address_info = [user_data.get('address_from'), user_data.get('address_to')]
+    address_info = (user_data.get('address_from'), user_data.get('address_to'))
     await make_order(message.from_user.id, address_info)
     await message.answer("Ваш заказ передан в службу.\n"
                          "Мы оповестим вас, когда найдется водитель!\n"
@@ -140,20 +140,3 @@ async def input_number_handler(message: Message, state: FSMContext):
 
     await message.answer("Вы успешно зарегистрировались!")
     await message.answer("Теперь вы можете сделать заказ", reply_markup=kb_make_order_user)
-
-
-@user_router.message()
-async def understand_message_handler(message: Message):
-    if not await check_user(message.from_user.id):
-        await message.answer("Вы не зарегистрированы", reply_markup=kb_unauthorized_user)
-    else:
-        if await check_order(message.from_user.id):
-            await message.answer("Введите /start для начала работы бота", reply_markup=kb_cancel_order_user)
-        else:
-            await message.answer("Введите /start для начала работы бота", reply_markup=kb_make_order_user)
-
-
-
-# # Ввод номера
-# dp.register_message_handler(input_number_handler, state=Registration.registration_number,
-#                             content_types=types.ContentType.CONTACT)

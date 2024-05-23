@@ -757,21 +757,6 @@ files = [
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
-name = "pymysql"
-version = "1.1.1"
-description = "Pure Python MySQL Driver"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "PyMySQL-1.1.1-py3-none-any.whl", hash = "sha256:4de15da4c61dc132f4fb9ab763063e693d521a80fd0e87943b9a453dd4c19d6c"},
-    {file = "pymysql-1.1.1.tar.gz", hash = "sha256:e127611aaf2b417403c60bf4dc570124aeb4a57f5f37b8e95ae399a42f904cd0"},
-]
-
-[package.extras]
-ed25519 = ["PyNaCl (>=1.4.0)"]
-rsa = ["cryptography"]
-
-[[package]]
 name = "python-dotenv"
 version = "1.0.1"
 description = "Read key-value pairs from a .env file and set them as environment variables"
@@ -989,4 +974,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "f158a996886e9141c067592cc02b2450767a8e5c0632db342c327eface29b1b8"
+content-hash = "7fd7406edd52de200be24dd23d7d0450e62f22e1a27c4f1db9a4b505b4a28d9d"

@@ -74,4 +74,4 @@ async def input_car_number(message: Message, state: FSMContext):
 
     await state.clear()
 
-    await message.answer("Вы были успешно зарегистрированы!")
+    await message.answer("Вы были успешно зарегистрированы!", reply_markup=kb_make_order_user)

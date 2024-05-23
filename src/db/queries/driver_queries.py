@@ -1,37 +1,35 @@
-from database import make_query, make_crud_query
+from sqlalchemy import select, func
+from sqlalchemy.exc import IntegrityError
+
+from db.models import Driver
+from database import async_session_factory
 
 
-@make_crud_query
-async def add_driver(id, name, driver_data):
-    return "INSERT INTO drivers(`id`, `name`, `number`, `car_model`,`car_color`,`car_number`) " \
-           f"VALUES ({id}, '{name}','{driver_data.get('number')}','{driver_data.get('car_model')}'," \
-           f"'{driver_data.get('car_color')}','{driver_data.get('car_number')}')"
+async def add_driver(id: int, name: str, driver_data: dict):
+    async with async_session_factory() as session:
+        driver = Driver(id=id, name=name, **driver_data)
+        session.add(driver)
+        try:
+            await session.commit()
+        except IntegrityError:
+            await session.rollback()
 
 
-@make_query
-async def get_query_for_driver_data(driver_id):
-    return f"SELECT `name`, `number`, `car_model`, `car_color`, `car_number` " \
-          f"FROM drivers WHERE id = {driver_id}"
+async def get_driver_data(driver_id: int) -> Driver:
+    async with async_session_factory() as session:
+        query = select(Driver).where(Driver.id == driver_id)
+        result = await session.execute(query)
+        driver = result.mappings().one_or_none()
+    if driver:
+        return driver['Driver']
 
 
-async def get_driver_data(driver_id):
-    data = await get_query_for_driver_data(driver_id)
-    if data:
-        result = data[0]['name'], data[0]['number'], data[0]['car_model'], data[0]['car_color'], data[0]['car_number']
-        return result
-
-
-@make_query
-async def get_query_for_driver_count(id):
-    return f"SELECT COUNT(*) as count " \
-          f"FROM drivers " \
-          f"WHERE id = {id}"
-
-
-async def check_driver(id):
-    result = await get_query_for_driver_count(id)
-    if result:
-        if result[0]['count'] == 1:
-            return True
-        else:
-            return False
+async def check_driver(id: int):
+    async with async_session_factory() as session:
+        query = select(func.count(Driver.id)).where(Driver.id == id)
+        result = await session.execute(query)
+        driver = result.scalar_one_or_none()
+    if driver == 1:
+        return True
+    else:
+        return False

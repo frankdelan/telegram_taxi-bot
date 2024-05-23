@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-token = os.environ.get('TOKEN')
+TOKEN = os.environ.get('TOKEN')
 name = "Taxi Delta Bot"
 
-host = os.environ.get('HOST')
-port = int(os.environ.get('PORT'))
-user = os.environ.get('USER')
-password = os.environ.get('PASS')
-db_name = os.environ.get('DB_NAME')
+HOST = os.environ.get('HOST')
+PORT = os.environ.get('PORT')
+USER = os.environ.get('USER')
+PASSWORD = os.environ.get('PASS')
+NAME = os.environ.get('DB_NAME')
 
 chat_id = os.environ.get('CHAT_ID')
