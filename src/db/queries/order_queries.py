@@ -1,4 +1,4 @@
-from .database import make_query, make_crud_query
+from database import make_query, make_crud_query
 from datetime import datetime
 
 

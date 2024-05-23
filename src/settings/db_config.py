@@ -8,7 +8,7 @@ token = os.environ.get('TOKEN')
 name = "Taxi Delta Bot"
 
 host = os.environ.get('HOST')
-port = os.environ.get('PORT')
+port = int(os.environ.get('PORT'))
 user = os.environ.get('USER')
 password = os.environ.get('PASS')
 db_name = os.environ.get('DB_NAME')

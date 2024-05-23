@@ -1,16 +1,16 @@
-from aiogram import types, Dispatcher
-from create_bot import dp, bot
-from aiogram.dispatcher import FSMContext
+from aiogram import Router, F, types
+from settings.bot_config import bot
 
-from functions import get_data_user_by_id_order_message, get_driver_data, check_driver, \
-    get_last_user_order_id
+from db.queries import get_data_user_by_id_order_message, get_last_user_order_id, get_driver_data, check_driver
 from keyboards import kb_confirm_order_user
 
-from config import chat_id
+from settings.db_config import chat_id
+
+group_router = Router()
 
 
-# @dp.callback_query_handler(lambda call: call.data == 'take', ChatTypeFilter(chat_type=types.ChatType.PRIVATE))
-async def taking_an_order(query: types.CallbackQuery, state: FSMContext):
+@group_router.callback_query(F.data == 'take')
+async def taking_an_order(query: types.CallbackQuery):
     if await check_driver(query.from_user.id):
         id_order_message = query.message.message_id
         data = await get_data_user_by_id_order_message(id_order_message)
@@ -41,7 +41,3 @@ async def taking_an_order(query: types.CallbackQuery, state: FSMContext):
                                f"Введите <b>/driver</b> в боте <b>taxiDelta_bot</b>, чтобы пройти регистрацию.\n"
                                f"После этого вы сможете принимать заказы.",
                                parse_mode='html')
-
-
-def register_handlers_other(dp: Dispatcher):
-    dp.register_callback_query_handler(taking_an_order, lambda call: call.data == 'take')
