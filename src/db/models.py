@@ -40,7 +40,7 @@ class Order(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     address_from: Mapped[str]
     address_to: Mapped[str]
-    date = mapped_column(TIMESTAMP, default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    date = mapped_column(TIMESTAMP, default=datetime.now())
     id_user: Mapped[int] = mapped_column(BigInteger)
     status: Mapped[Status]
     id_order_message: Mapped[int] = mapped_column(BigInteger, default=0)

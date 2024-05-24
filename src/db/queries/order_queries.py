@@ -40,7 +40,7 @@ async def insert_id_order_message(id_user: int, id_order_message: int):
             await session.rollback()
 
 
-async def cancel_order(id_user):
+async def cancel_order(id_user: int):
     async with async_session_factory() as session:
         subquery = select(func.max(Order.id)).where(
             (Order.id_user == id_user) & (Order.status != Status.INACTIVE)).scalar_subquery()
@@ -54,7 +54,7 @@ async def cancel_order(id_user):
             await session.rollback()
 
 
-async def confirm_order(id_user):
+async def confirm_order(id_user: int):
     async with async_session_factory() as session:
         subquery = select(func.max(Order.id)).where(
             (Order.id_user == id_user) & (Order.status == Status.CANCEL)).scalar_subquery()
