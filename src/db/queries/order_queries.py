@@ -3,7 +3,7 @@ from sqlalchemy import select, func, update
 from sqlalchemy.exc import IntegrityError
 
 from database import async_session_factory
-from db.models import Order, User, Status
+from db.models import Order, Client, Status
 
 
 async def make_order(id_user: int, address_info: tuple):
@@ -79,8 +79,8 @@ async def get_id_order_message(id_user: int):
 
 async def get_data_user_by_id(id_user: int):
     async with async_session_factory() as session:
-        query = select(Order.address_from, Order.address_to, User.number
-                       ).join(User, Order.id_user == User.id
+        query = select(Order.address_from, Order.address_to, Client.number
+                       ).join(Client, Order.id_user == Client.id
                               ).where((Order.id_user == id_user) & (Order.status == Status.ACTIVE))
         result = await session.execute(query)
         order_info = result.mappings().one_or_none()
@@ -109,7 +109,7 @@ async def get_last_user_order_id(id_user: int):
 async def get_data_user_by_id_order_message(id_order_message: int):
     async with async_session_factory() as session:
         query = select(Order.id_order_message, Order.address_from, Order.address_to, Order.id_user, User.number
-                       ).join(User, Order.id_user == User.id
+                       ).join(Client, Order.id_user == Client.id
                               ).where(Order.id_order_message == id_order_message)
         result = await session.execute(query)
         order_info = result.mappings().one_or_none()

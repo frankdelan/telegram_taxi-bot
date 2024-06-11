@@ -3,11 +3,18 @@ from sqlalchemy.exc import IntegrityError
 
 from db.models import Driver
 from database import async_session_factory
+from settings.admin import admin_tg
 
 
-async def add_driver(id: int, name: str, driver_data: dict):
+async def check_admin(id: int) -> bool:
+    if id in admin_tg:
+        return True
+    return False
+
+
+async def add_driver(driver_data: dict):
     async with async_session_factory() as session:
-        driver = Driver(id=id, name=name, **driver_data)
+        driver = Driver(**driver_data)
         session.add(driver)
         try:
             await session.commit()

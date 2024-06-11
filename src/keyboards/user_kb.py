@@ -22,7 +22,11 @@ btn_register = [
     [KeyboardButton(text='Регистрация')]
 ]
 
-share_button = [
+share_location_button = [
+    [KeyboardButton(text="Поделиться местоположением", request_location=True)]
+]
+
+share_number_button = [
     [KeyboardButton(text="Поделиться номером", request_contact=True)]
 ]
 
@@ -53,6 +57,20 @@ kb_unauthorized_user = ReplyKeyboardMarkup(resize_keyboard=True, keyboard=btn_re
 inline_keyboard = InlineKeyboardBuilder()
 inline_keyboard.add(InlineKeyboardButton(text='Взять заказ', callback_data='take'))
 
+# Кнопка выбора типа автомобиля
+car_type_keyboard = InlineKeyboardBuilder()
+car_type_keyboard.add(InlineKeyboardButton(text='Механика', callback_data='0')). \
+                  add(InlineKeyboardButton(text='Автомат', callback_data='1'))
+
 
 # Кнопка "поделиться номером"
-share_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, keyboard=share_button)
+share_number_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True,
+                                                  one_time_keyboard=True,
+                                                  keyboard=share_number_button)
+
+
+# Кнопка "поделиться местоположением"
+share_location_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True,
+                                                    one_time_keyboard=True,
+                                                    keyboard=share_location_button)
+

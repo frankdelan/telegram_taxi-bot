@@ -16,11 +16,13 @@ class Status(enum.Enum):
         return self.value
 
 
-class User(Base):
-    __tablename__ = 'user'
+class Client(Base):
+    __tablename__ = 'client'
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    telegram: Mapped[str]
     number: Mapped[str]
+    is_auto: Mapped[bool]
 
 
 class Driver(Base):
@@ -28,10 +30,10 @@ class Driver(Base):
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     name: Mapped[str]
-    number: Mapped[str]
-    car_model: Mapped[str]
-    car_color: Mapped[str]
-    car_number: Mapped[str]
+    surname: Mapped[str]
+    patronymic: Mapped[str]
+    telegram: Mapped[str]
+    phone_number: Mapped[str]
 
 
 class Order(Base):
@@ -40,7 +42,8 @@ class Order(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     address_from: Mapped[str]
     address_to: Mapped[str]
+    price: Mapped[float]
     date = mapped_column(TIMESTAMP, default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    id_user: Mapped[int] = mapped_column(BigInteger)
     status: Mapped[Status]
+    id_user: Mapped[int] = mapped_column(BigInteger)
     id_order_message: Mapped[int] = mapped_column(BigInteger, default=0)

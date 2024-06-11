@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 TOKEN = os.environ.get('TOKEN')
+API_KEY = os.environ.get('API_KEY')
 name = "Taxi Delta Bot"
 
 HOST = os.environ.get('HOST')
